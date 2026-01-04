@@ -5,13 +5,11 @@ import { PROCESS_INFO } from '@/lib/constants'
 
 interface ProcessInfoProps {
   lactoseFree: boolean
-  filterTime?: string
 }
 
-export function ProcessInfo({ lactoseFree, filterTime }: ProcessInfoProps) {
+export function ProcessInfo({ lactoseFree }: ProcessInfoProps) {
   const [isOpen, setIsOpen] = useState(false)
 
-  const times = lactoseFree ? PROCESS_INFO.times.lactoseFree : PROCESS_INFO.times.regular
   const tips = lactoseFree ? PROCESS_INFO.tips.lactoseFree : PROCESS_INFO.tips.regular
 
   return (
@@ -22,7 +20,7 @@ export function ProcessInfo({ lactoseFree, filterTime }: ProcessInfoProps) {
         className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-white/20 transition-all duration-300"
       >
         <span className="font-medium text-text-primary flex items-center gap-2">
-          <span>Proceso</span>
+          <span>Temperaturas y Tips</span>
           {lactoseFree && (
             <span className="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">
               Deslactosado
@@ -41,20 +39,6 @@ export function ProcessInfo({ lactoseFree, filterTime }: ProcessInfoProps) {
 
       {isOpen && (
         <div className="px-6 pb-6 space-y-6">
-          <Section title="Tiempos">
-            {times.map((item) => (
-              <InfoRow
-                key={item.label}
-                label={item.label}
-                value={item.value}
-                note={'note' in item ? (item as { note: string }).note : undefined}
-              />
-            ))}
-            {filterTime && (
-              <InfoRow label="Filtrado" value={filterTime} />
-            )}
-          </Section>
-
           <Section title="Temperaturas">
             {PROCESS_INFO.temperatures.map((item) => (
               <InfoRow
@@ -70,7 +54,7 @@ export function ProcessInfo({ lactoseFree, filterTime }: ProcessInfoProps) {
             <ul className="space-y-2">
               {tips.map((tip) => (
                 <li key={tip} className="text-sm text-text-secondary flex items-start gap-2">
-                  <span className="text-accent-green mt-0.5">•</span>
+                  <span className="text-emerald-600 mt-0.5">•</span>
                   {tip}
                 </li>
               ))}
@@ -95,24 +79,17 @@ function InfoRow({
   label,
   value,
   warning,
-  note,
 }: {
   label: string
   value: string
   warning?: boolean
-  note?: string
 }) {
   return (
     <div className="flex justify-between items-center text-sm">
       <span className="text-text-secondary">{label}</span>
-      <div className="text-right">
-        <span className={warning ? 'text-orange-500 font-medium' : 'text-text-primary'}>
-          {value}
-        </span>
-        {note && (
-          <span className="block text-xs text-emerald-600">{note}</span>
-        )}
-      </div>
+      <span className={warning ? 'text-orange-500 font-medium' : 'text-text-primary'}>
+        {value}
+      </span>
     </div>
   )
 }

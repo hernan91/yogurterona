@@ -6,7 +6,9 @@ import { ProportionSelector } from './ProportionSelector'
 import { MilkTypeSelector } from './MilkTypeSelector'
 import { FilterLevelSelector } from './FilterLevelSelector'
 import { Results } from './Results'
+import { Timeline } from './Timeline'
 import { ProcessInfo } from './ProcessInfo'
+import { EducationalInfo } from './EducationalInfo'
 import { calculateFromBase, calculateFromDesired, calculateFromCapacity } from '@/lib/calculations'
 import type { ProportionKey, MilkTypeKey, FilterLevelKey } from '@/lib/constants'
 
@@ -40,7 +42,7 @@ export function Calculator() {
       placeholder: 'Ej: 200',
     },
     fromDesired: {
-      label: 'Gramos de yogurt griego que quiero',
+      label: 'Gramos de yogurt que quiero obtener despues de filtrar',
       placeholder: 'Ej: 500',
     },
     fromCapacity: {
@@ -92,7 +94,15 @@ export function Calculator() {
 
       <Results result={result} milkType={milkType} />
 
-      <ProcessInfo lactoseFree={lactoseFree} filterTime={result?.filterTime} />
+      <Timeline
+        milkType={milkType}
+        filterLevel={filterLevel}
+        lactoseFree={lactoseFree}
+      />
+
+      <ProcessInfo lactoseFree={lactoseFree} />
+
+      <EducationalInfo showLactoseFree={lactoseFree} />
     </div>
   )
 }
